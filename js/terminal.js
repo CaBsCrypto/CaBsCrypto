@@ -25,13 +25,11 @@
   <span style="color:var(--text-muted)">GitHub:</span> <span style="color:var(--magenta)">https://github.com/CaBsCrypto</span>
   <span style="color:var(--text-muted)">Blog:</span>   <span style="color:var(--magenta)">https://agente-asistente.vercel.app</span>`,
 
-    projects: () => `<span style="color:var(--cyan)">🚀 Proyectos en github.com/CaBsCrypto:</span>
-  <span style="color:var(--lime)">1.</span> <b>agente-asistente</b>     [TS · LangGraph · MCP · Stellar] — AI agent que reserva y paga con límites
-  <span style="color:var(--lime)">2.</span> <b>ficha-onchain</b>        [TS · Soroban · Stellar · MCP]  — Fichas médicas SSI on-chain (TrustLeaf)
-  <span style="color:var(--lime)">3.</span> <b>gitlyzer</b>             [TS · Gemini · D3.js]           — Análisis de repos GitHub con AI
-  <span style="color:var(--lime)">4.</span> <b>leadGenAI</b>            [TS · Gemini · Google Maps]     — Lead gen para negocios sin web en Chile
-  <span style="color:var(--lime)">5.</span> <b>biblioteca-de-prompts</b> [TS · React · Firebase · Gemini] — Prompt library con community
-  <span style="color:var(--lime)">6.</span> <b>CreatorHub</b>           [TS · Supabase · Gemini]         — Plataforma ops para creadores`,
+    projects: () => `<span style="color:var(--cyan)">🚀 Proyectos destacados:</span>
+  <span style="color:var(--lime)">1.</span> <b>agente-asistente</b>  [TS · LangGraph · MCP · Stellar]  — AI agent que reserva y paga con límites
+  <span style="color:var(--lime)">2.</span> <b>ficha-onchain</b>     [TS · Soroban · Stellar · MCP]   — Fichas médicas SSI on-chain (TrustLeaf)
+  <span style="color:var(--lime)">3.</span> <b>Rhythm Slice</b>       [Stellar · ZK · Passkey]          — Juego de ritmo ZK on-chain 🎵
+  <span style="color:var(--lime)">4.</span> <b>Slash Slice</b>        [MediaPipe · Privy · Soroban]     — Corta pizzas con las manos 🍕`,
 
     skills: () => `<span style="color:var(--cyan)">⚡ Stack Real de 0xCaBs:</span>
   <span style="color:var(--magenta)">[AI/Agents]</span>  TypeScript · LangGraph · MCP · Gemini AI · Agentic Commerce
@@ -54,7 +52,7 @@
     contact: () => `<span style="color:var(--cyan)">✉️ Encuéntrame aquí:</span>
   GitHub  : <span style="color:var(--magenta)">https://github.com/CaBsCrypto</span>
   Demo    : <span style="color:var(--magenta)">https://agente-asistente.vercel.app</span>
-  Gitlyzer: <span style="color:var(--magenta)">https://gitlyzer-opal.vercel.app</span>`,
+  Arcade  : <span style="color:var(--magenta)">https://rhythmslice.spicycrust.com</span>`,
 
     matrix: () => {
       if (window.MatrixRainEngine && typeof window.MatrixRainEngine.toggle === 'function') {

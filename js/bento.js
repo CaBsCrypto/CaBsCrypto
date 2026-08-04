@@ -9,7 +9,8 @@
   const ALIASES = {
     bot: 'agente',
     aegis: 'trustleaf',
-    cli: 'gitlyzer'
+    rhythm: 'rhythmslice',
+    pizza: 'slashslice'
   };
 
   const PROJECTS = {
@@ -43,65 +44,37 @@
       link: 'https://github.com/CaBsCrypto/ficha-onchain',
       demo: 'https://trustleaf-demo.vercel.app'
     },
-    gitlyzer: {
-      title: 'Gitlyzer',
-      img: 'assets/images/gitlyzer.jpg',
-      desc: 'Análisis de repositorios GitHub potenciado por AI — calidad de código, postura de seguridad y potencial de mercado, renderizado como charts interactivos con D3.js y Gemini.',
-      stack: ['TypeScript', 'Gemini AI', 'D3.js', 'Code Analysis'],
+    rhythmslice: {
+      title: 'Rhythm Slice — ZK Rhythm Game',
+      img: 'assets/images/rhythmslice.png',
+      desc: 'Juego de ritmo con pruebas ZK en Stellar. Nueva York, 1984: los Dons creen ser dueños del horno — muéstrales quién gobierna la cocina. Mantén el ritmo, corta al compás y sube tu score on-chain.',
+      stack: ['TypeScript', 'Stellar', 'ZK', 'Passkey', 'Soroban', 'Game'],
       features: [
-        'Score de calidad de código, seguridad y potencial de mercado',
-        'Charts D3 interactivos para explorar el análisis',
-        'Powered by Gemini para razonamiento sobre el código'
+        'Rhythm gameplay con verificación ZK de scores',
+        'Login sin fricción con Passkey + wallet (Freighter, testnet)',
+        'Scores on-chain en Stellar — parte de SpicyCrust Arcade'
       ],
-      status: '⭐ gitlyzer-opal.vercel.app',
-      statusColor: 'var(--gold)',
-      link: 'https://github.com/CaBsCrypto/gitlyzer',
-      demo: 'https://gitlyzer-opal.vercel.app'
-    },
-    leadgen: {
-      title: 'leadGenAI',
-      img: 'assets/images/leadgen.jpg',
-      desc: 'Encuentra negocios con mala presencia digital o sin web en comunas de Chile y puntúa la oportunidad de automatización AI. Google Maps + Gemini, mapeado a comunas chilenas.',
-      stack: ['TypeScript', 'Gemini', 'Google Maps API', 'Lead Generation', 'Chile'],
-      features: [
-        'Escaneo de comunas chilenas con Google Maps API',
-        'Score de oportunidad de automatización AI por negocio',
-        'Forkado 1 vez — proyecto comunitario activo'
-      ],
-      status: '🔀 1 Fork · Open Source',
+      status: '🎮 Live en spicycrust.com',
       statusColor: 'var(--cyan)',
-      link: 'https://github.com/CaBsCrypto/leadGenAI',
+      link: 'https://rhythmslice.spicycrust.com',
+      linkLabel: 'Jugar ahora',
+      linkIcon: 'fa-solid fa-gamepad',
       demo: null
     },
-    prompts: {
-      title: 'biblioteca-de-prompts',
-      img: 'assets/images/biblioteca_prompts.jpg',
-      desc: 'Prompt library full-stack con carpetas, tags, favoritos, community pública y remixes. React + Firebase + Gemini AI.',
-      stack: ['TypeScript', 'React', 'Firebase', 'Gemini', 'Prompts'],
+    slashslice: {
+      title: 'Slash Slice Arena — pizzaninja',
+      img: 'assets/images/slashslice.png',
+      desc: 'Corta pizzas con las manos en la arena de la cocina. Hand-tracking MediaPipe a 60 FPS directo en el browser, auth sin fricción con Privy y scoreboard on-chain en Soroban.',
+      stack: ['TypeScript', 'MediaPipe', 'Privy', 'Soroban', 'Stellar', 'Game'],
       features: [
-        'Sistema de carpetas, tags y favoritos privados',
-        'Community pública con remixes de prompts',
-        'Live en biblioteca-de-prompts-ashen.vercel.app'
+        'Hand-tracking 60 FPS con MediaPipe (edge AI en el browser)',
+        'Auth zero-friction con Privy',
+        'Scoreboard on-chain en Soroban — modo normal y modo cámara'
       ],
-      status: '🌐 Live en Vercel',
-      statusColor: 'var(--lime)',
-      link: 'https://github.com/CaBsCrypto/biblioteca-de-prompts',
-      demo: 'https://biblioteca-de-prompts-ashen.vercel.app'
-    },
-    creatorhub: {
-      title: 'CreatorHub',
-      img: 'assets/images/creatorhub.jpg',
-      desc: 'Plataforma de operaciones que conecta creadores de contenido con clientes — dashboards por rol, onboarding, reviews públicos y analytics. Supabase + Gemini + SaaS.',
-      stack: ['TypeScript', 'Supabase', 'Gemini', 'Next.js', 'SaaS', 'Creator Economy'],
-      features: [
-        'Dashboards con roles diferenciados (creador / cliente)',
-        'Reviews públicos + sistema de onboarding',
-        'Live en creator-hub-three-lake.vercel.app'
-      ],
-      status: '🌐 Live en Vercel',
-      statusColor: 'var(--lime)',
-      link: 'https://github.com/CaBsCrypto/CreatorHub',
-      demo: 'https://creator-hub-three-lake.vercel.app'
+      status: '🎮 Live en spicycrust.com',
+      statusColor: 'var(--gold)',
+      link: 'https://github.com/CaBsCrypto/pizzaninja',
+      demo: 'https://slashslice.spicycrust.com'
     }
   };
 
@@ -136,7 +109,7 @@
         </div>
         <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
           <a href="${p.link}" target="_blank" class="btn-primary" style="display:inline-flex;font-size:0.9rem;padding:0.65rem 1.25rem;">
-            <i class="fa-brands fa-github"></i> Ver en GitHub
+            <i class="${p.linkIcon || 'fa-brands fa-github'}"></i> ${p.linkLabel || 'Ver en GitHub'}
           </a>
           ${p.demo ? `<a href="${p.demo}" target="_blank" class="btn-secondary" style="display:inline-flex;font-size:0.9rem;padding:0.65rem 1.25rem;">
             <i class="fa-solid fa-globe"></i> Demo Live
