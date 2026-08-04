@@ -506,9 +506,8 @@
   }
 
   // Listen for DOM load
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', bootstrap);
-  } else {
+  document.addEventListener('DOMContentLoaded', bootstrap);
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
     bootstrap();
   }
 

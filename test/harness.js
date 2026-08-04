@@ -577,7 +577,7 @@ function parseCSS(cssString) {
   }
 
   const fontFamilies = new Set();
-  const fontRegex = /font-family\s*:\s*([^;]+);/gi;
+  const fontRegex = /(?:font-family|--font-[a-zA-Z0-9_-]+)\s*:\s*([^;]+);/gi;
   let fMatch;
   while ((fMatch = fontRegex.exec(cleanCSS)) !== null) {
     const fonts = fMatch[1].split(',').map(s => s.trim().replace(/^['"]|['"]$/g, ''));
@@ -621,9 +621,9 @@ function parseCSS(cssString) {
       }
     });
 
-    const selectors = selectorGroup.split(',').map(s => s.trim());
-    selectors.forEach(sel => {
-      rules.push({ selector: sel, declarations: decls });
+    rules.push({ selector: selectorGroup, declarations: decls });
+    selectorGroup.split(',').forEach(sel => {
+      rules.push({ selector: sel.trim(), declarations: decls });
     });
   }
 
@@ -694,8 +694,15 @@ function createMockDOMNode(tagName = 'div', attributes = {}) {
         node.className = Array.from(classListSet).join(' ');
       },
       toggle: (c) => {
-        if (classListSet.has(c)) { classListSet.delete(c); } else { classListSet.add(c); }
-        node.className = Array.from(classListSet).join(' ');
+        if (classListSet.has(c)) {
+          classListSet.delete(c);
+          node.className = Array.from(classListSet).join(' ');
+          return false;
+        } else {
+          classListSet.add(c);
+          node.className = Array.from(classListSet).join(' ');
+          return true;
+        }
       },
       contains: (c) => classListSet.has(c)
     },
@@ -723,6 +730,7 @@ function createMockDOMNode(tagName = 'div', attributes = {}) {
     insertBefore: (child, refNode) => {
       if (child) {
         child.parentNode = node;
+        if (node.ownerDocument) child.ownerDocument = node.ownerDocument;
         const idx = refNode ? children.indexOf(refNode) : -1;
         if (idx !== -1) {
           children.splice(idx, 0, child);
@@ -740,6 +748,7 @@ function createMockDOMNode(tagName = 'div', attributes = {}) {
     appendChild: (child) => {
       if (child) {
         child.parentNode = node;
+        if (node.ownerDocument) child.ownerDocument = node.ownerDocument;
         children.push(child);
       }
       return child;
@@ -768,6 +777,9 @@ function createMockDOMNode(tagName = 'div', attributes = {}) {
           curr._listeners[eventName].forEach(fn => fn.call(node, eventObj));
         }
         curr = curr.parentNode;
+      }
+      if (node.ownerDocument && typeof node.ownerDocument.dispatchEvent === 'function' && node !== node.ownerDocument.documentElement) {
+        node.ownerDocument.dispatchEvent(eventObj);
       }
     },
     click: () => node.dispatchEvent('click'),
@@ -812,7 +824,8 @@ function createMockDOMNode(tagName = 'div', attributes = {}) {
       if (val && typeof parseHTML === 'function') {
         try {
           const parsed = parseHTML(val);
-          for (const child of parsed.children) {
+          const parsedChildren = (parsed && parsed.root && parsed.root.children) || (parsed && parsed.children) || [];
+          for (const child of parsedChildren) {
             child.parentNode = node;
             children.push(child);
           }
@@ -882,11 +895,17 @@ function createVMContext(options = {}) {
     documentElement: docRoot,
     body: docBody,
     head: docHead,
-    createElement: (tag) => createMockDOMNode(tag),
+    createElement: (tag) => {
+      const n = createMockDOMNode(tag);
+      n.ownerDocument = mockDoc;
+      return n;
+    },
     createTextNode: (text) => ({ textContent: text }),
     getElementById: (id) => {
+      const found = docRoot.querySelector(`#${id}`);
+      if (found) return found;
       if (elementRegistry.has(id)) return elementRegistry.get(id);
-      return docRoot.querySelector(`#${id}`);
+      return null;
     },
     getElementsByClassName: (cls) => docRoot.querySelectorAll(`.${cls}`),
     getElementsByTagName: (tag) => docRoot.querySelectorAll(tag),
@@ -906,6 +925,10 @@ function createVMContext(options = {}) {
     },
     registerElement: (id, elem) => elementRegistry.set(id, elem)
   };
+
+  docRoot.ownerDocument = mockDoc;
+  docBody.ownerDocument = mockDoc;
+  docHead.ownerDocument = mockDoc;
 
   const sandbox = {
     console,

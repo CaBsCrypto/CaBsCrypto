@@ -97,10 +97,7 @@ async function runE2ETests() {
         console.log(`  ✗ ${t.name} (${duration}ms)`);
         console.log(`    Error: ${err.message}`);
         if (err.stack) {
-          const lines = err.stack.split('\n');
-          if (lines[1]) {
-            console.log(`    At: ${lines[1].trim()}`);
-          }
+          console.log(`    Stack:\n${err.stack.split('\n').map(l => '      ' + l).join('\n')}`);
         }
       }
 
