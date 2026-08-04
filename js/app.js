@@ -179,16 +179,17 @@
 
     // Track global document cursor position
     document.addEventListener('mousemove', e => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
+      mouseX = e.clientX !== undefined ? e.clientX : 0;
+      mouseY = e.clientY !== undefined ? e.clientY : 0;
 
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
+      if (document.documentElement && document.documentElement.style) {
+        if (typeof document.documentElement.style.setProperty === 'function') {
           document.documentElement.style.setProperty('--mouse-x', `${mouseX}px`);
           document.documentElement.style.setProperty('--mouse-y', `${mouseY}px`);
-          ticking = false;
-        });
-        ticking = true;
+        } else {
+          document.documentElement.style['--mouse-x'] = `${mouseX}px`;
+          document.documentElement.style['--mouse-y'] = `${mouseY}px`;
+        }
       }
 
       if (e.target && e.target.style) {
@@ -360,6 +361,7 @@
 
     let resizeTimeout;
     window.addEventListener('resize', () => {
+      resizeCanvas();
       clearTimeout(resizeTimeout);
       resizeTimeout = setTimeout(resizeCanvas, 150);
     });
@@ -372,36 +374,29 @@
   // 4. Navigation & Mobile Menu Interactivity
   // =========================================================================
   function initNavigation() {
-    document.addEventListener('click', e => {
-      let toggleBtn = document.getElementById('mobile-menu-toggle');
-      let navLinks = document.querySelector('.nav-links');
-      const clickedToggle = e.target && (e.target.id === 'mobile-menu-toggle' || (e.target.closest && e.target.closest('#mobile-menu-toggle')));
-      if (clickedToggle) {
-        if (!toggleBtn) toggleBtn = e.target.closest ? e.target.closest('#mobile-menu-toggle') : e.target;
-        if (!navLinks) navLinks = document.querySelector('.nav-links');
-        if (toggleBtn && navLinks) {
-          const isOpen = navLinks.classList.toggle('nav-open');
-          toggleBtn.classList.toggle('active');
-          toggleBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-          CabsCrypto.state.isMobileMenuOpen = isOpen;
-        }
-      }
-    });
-
     const navbar = document.getElementById('navbar');
     const toggleBtn = document.getElementById('mobile-menu-toggle');
     const navLinks = document.querySelector('.nav-links');
     const navAnchors = document.querySelectorAll('.nav-links a, a[href^="#"]');
 
     // Mobile Menu Toggle
-    if (toggleBtn && navLinks) {
-      toggleBtn.addEventListener('click', () => {
-        const isOpen = navLinks.classList.toggle('nav-open');
-        toggleBtn.classList.toggle('active');
-        toggleBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-        CabsCrypto.state.isMobileMenuOpen = isOpen;
-      });
-    }
+    document.addEventListener('click', e => {
+      if (e._handledToggle) return;
+      let target = e.target;
+      while (target && target !== document) {
+        if ((target.id && target.id === 'mobile-menu-toggle') || (target.classList && (target.classList.contains('mobile-menu-toggle') || target.classList.contains('menu-toggle')))) {
+          e._handledToggle = true;
+          const links = document.querySelector('.nav-links');
+          const btn = document.getElementById('mobile-menu-toggle') || target;
+          const isOpen = links ? links.classList.toggle('nav-open') : false;
+          if (btn.classList) btn.classList.toggle('active');
+          if (typeof btn.setAttribute === 'function') btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+          if (window.CabsCrypto && window.CabsCrypto.state) window.CabsCrypto.state.isMobileMenuOpen = isOpen;
+          break;
+        }
+        target = target.parentNode;
+      }
+    });
 
     // Smooth Scroll & Close Mobile Nav on Selection
     navAnchors.forEach(anchor => {

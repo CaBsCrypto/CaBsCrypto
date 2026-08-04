@@ -146,8 +146,12 @@
 
   function bindInput(termBody) {
     const inp = termBody.querySelector('#terminal-input');
-    if (!inp || inp.dataset.bound === 'true') return;
-    inp.dataset.bound = 'true';
+    if (!inp || (inp.dataset && inp.dataset.bound === 'true') || (inp.getAttribute && inp.getAttribute('data-bound') === 'true')) return;
+    if (inp.dataset) {
+      inp.dataset.bound = 'true';
+    } else if (typeof inp.setAttribute === 'function') {
+      inp.setAttribute('data-bound', 'true');
+    }
 
     inp.addEventListener('keydown', function handler(e) {
       if (e.key === 'ArrowUp') {
@@ -156,7 +160,7 @@
             historyIndex++;
           }
           inp.value = commandHistory[commandHistory.length - 1 - historyIndex];
-          e.preventDefault();
+          if (e && typeof e.preventDefault === 'function') e.preventDefault();
         }
       } else if (e.key === 'ArrowDown') {
         if (historyIndex > 0) {
@@ -166,9 +170,9 @@
           historyIndex = -1;
           inp.value = '';
         }
-        e.preventDefault();
+        if (e && typeof e.preventDefault === 'function') e.preventDefault();
       } else if (e.key === 'Enter') {
-        e.preventDefault();
+        if (e && typeof e.preventDefault === 'function') e.preventDefault();
         executeCommand(inp.value);
       }
     });
