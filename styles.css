@@ -1,0 +1,83 @@
+/* Forwarding and duplicating full CSS for root level access */
+@import url('css/styles.css');
+
+/* ==========================================================================
+   CabsCrypto - Cyber-Futuristic Portfolio Design System
+   Path: styles.css (Root Fallback)
+   Milestone: M1 (Design System & Layout Infrastructure)
+   ========================================================================== */
+
+:root {
+  --bg-primary: #08090f;
+  --bg-dark: #08090f;
+  --bg-secondary: #0e111b;
+  --bg-surface: rgba(14, 17, 27, 0.65);
+  --bg-surface-hover: rgba(22, 27, 44, 0.85);
+  --bg-card: rgba(18, 22, 36, 0.5);
+  --bg-card-alt: rgba(10, 12, 20, 0.75);
+
+  --cyan: #00f3ff;
+  --neon-cyan: #00f3ff;
+  --magenta: #ff007a;
+  --neon-magenta: #ff007a;
+  --lime: #00ff66;
+  --neon-lime: #00ff66;
+  --purple: #9d4edd;
+  --neon-purple: #9d4edd;
+  --gold: #ffaa00;
+  --neon-gold: #ffaa00;
+
+  --text-main: #f0f4fc;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+  --text-bright: #ffffff;
+
+  --border-glass: rgba(255, 255, 255, 0.08);
+  --border-glass-hover: rgba(255, 255, 255, 0.18);
+  --border-neon-cyan: rgba(0, 243, 255, 0.4);
+  --border-neon-magenta: rgba(255, 0, 122, 0.4);
+  --border-neon-lime: rgba(0, 255, 102, 0.4);
+
+  --font-heading: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-pill: 9999px;
+
+  --glass-blur: blur(16px);
+  --glass-blur-heavy: blur(24px);
+
+  --glow-cyan: 0 0 25px rgba(0, 243, 255, 0.25);
+  --glow-cyan-intense: 0 0 35px rgba(0, 243, 255, 0.6);
+  --glow-magenta: 0 0 25px rgba(255, 0, 122, 0.25);
+  --glow-magenta-intense: 0 0 35px rgba(255, 0, 122, 0.6);
+  --glow-lime: 0 0 25px rgba(0, 255, 102, 0.25);
+  --glow-lime-intense: 0 0 35px rgba(0, 255, 102, 0.6);
+
+  --transition-fast: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-normal: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-slow: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body {
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  font-family: var(--font-body);
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+}
+
+@media (max-width: 992px) {
+  .container { width: 95%; max-width: 992px; }
+}
+
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .nav-links.nav-open { display: flex; }
+}
